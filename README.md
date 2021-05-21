@@ -46,7 +46,6 @@ sudo kubectl  create -f sp-authorization.yaml
 
 sudo kubectl get all
 
-
 ```
 NAME				  READY   STATUS    RESTARTS   AGE
 pod/shinyproxy-85c5784c6b-vpgvf   1/1	  Running   0	       13s
@@ -66,9 +65,11 @@ replicaset.apps/shinyproxy-76cbc4475f	0	  0	    0	    2m43s
 # port forward localhost:9000 to service/shinyproxy at port 8080
 
 sudo kubectl port-forward service/shinyproxy 9000:8080
+
+```
 Forwarding from 127.0.0.1:9000 -> 8080
 Forwarding from [::1]:9000 -> 8080
-
+```
 
 # visit localhost:9000 in browser
 
