@@ -1,29 +1,29 @@
 Adapted from: https://github.com/openanalytics/shinyproxy-config-examples/tree/master/03-containerized-kubernetes
 
 # install k3d
-curl -s https://raw.githubusercontent.com/rancher/k3d/main/install.sh | bash
+`curl -s https://raw.githubusercontent.com/rancher/k3d/main/install.sh | bash`
 
 # create k3d cluster
 
 ## create k3s cluster with 1 master node
-sudo k3d cluster create mycluster
+`sudo k3d cluster create mycluster`
 
 ## create worker nodes
  
-sudo k3d node create worker1 -c mycluster
+`sudo k3d node create worker1 -c mycluster`
 
-sudo k3d node create worker2 -c mycluster
+`sudo k3d node create worker2 -c mycluster`
 
 
 # install kubectl
- curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+ `curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"`
  
- sudo cp kubectl /usr/bin/
+ `sudo cp kubectl /usr/bin/`
 
 
 # check the nodes in the k3s cluster
 
-sudo kubectl get nodes
+`sudo kubectl get nodes`
 
 ```
 NAME			 STATUS   ROLES 		 AGE	 VERSION
@@ -33,18 +33,18 @@ k3d-worker1-0		 Ready	  <none>		 16s	 v1.20.6+k3s1
 ```
 
 # deploy shiny proxy in k3s
-git clone https://github.com/cswclui/shinyproxy-k3d
+`git clone https://github.com/cswclui/shinyproxy-k3d`
 
-cd shinyproxy-k3d
+`cd shinyproxy-k3d`
 
-sudo kubectl apply -f sp-deployment.yaml
+`sudo kubectl apply -f sp-deployment.yaml`
 
-sudo kubectl apply -f sp-service.yaml
+`sudo kubectl apply -f sp-service.yaml`
 
-sudo kubectl  create -f sp-authorization.yaml
+`sudo kubectl  create -f sp-authorization.yaml`
 
 
-sudo kubectl get all
+`sudo kubectl get all`
 
 ```
 NAME				  READY   STATUS    RESTARTS   AGE
@@ -64,7 +64,7 @@ replicaset.apps/shinyproxy-76cbc4475f	0	  0	    0	    2m43s
 
 # port forward localhost:9000 to service/shinyproxy at port 8080
 
-sudo kubectl port-forward service/shinyproxy 9000:8080
+`sudo kubectl port-forward service/shinyproxy 9000:8080`
 
 ```
 Forwarding from 127.0.0.1:9000 -> 8080
