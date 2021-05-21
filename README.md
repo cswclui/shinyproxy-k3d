@@ -4,7 +4,7 @@ Reference: https://github.com/openanalytics/shinyproxy-config-examples/tree/mast
 curl -s https://raw.githubusercontent.com/rancher/k3d/main/install.sh | bash
 
 
-#create k3d cluster
+# create k3d cluster
 
 k3d cluster create mycluster
 
@@ -16,13 +16,13 @@ sudo k3d node create worker2 -c mycluster
 
 
 
-#install kubectl
+# install kubectl
  curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
  
  sudo cp kubectl /usr/bin/
 
 
-#check the nodes in the k3s cluster
+# check the nodes in the k3s cluster
 
  sudo kubectl get nodes
 NAME			 STATUS   ROLES 		 AGE	 VERSION
@@ -31,7 +31,7 @@ k3d-worker2-0		 Ready	  <none>		 11s	 v1.20.6+k3s1
 k3d-worker1-0		 Ready	  <none>		 16s	 v1.20.6+k3s1
 
 
-#deploy shiny proxy in k3s
+# deploy shiny proxy in k3s
 git clone https://github.com/cswclui/shinyproxy-k3d
 
 cd shinyproxy-k3d
@@ -60,7 +60,7 @@ replicaset.apps/shinyproxy-85c5784c6b	1	  1	    1	    13s
 replicaset.apps/shinyproxy-76cbc4475f	0	  0	    0	    2m43s
 ```
 
-#port forward localhost:9000 to service/shinyproxy at port 8080
+# port forward localhost:9000 to service/shinyproxy at port 8080
 
 sudo kubectl port-forward service/shinyproxy 9000:8080
 Forwarding from 127.0.0.1:9000 -> 8080
