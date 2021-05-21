@@ -1,4 +1,4 @@
-Reference: https://github.com/openanalytics/shinyproxy-config-examples/tree/master/03-containerized-kubernetes
+Adapted from: https://github.com/openanalytics/shinyproxy-config-examples/tree/master/03-containerized-kubernetes
 
 # install k3d
 curl -s https://raw.githubusercontent.com/rancher/k3d/main/install.sh | bash
