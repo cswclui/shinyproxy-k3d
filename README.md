@@ -1,56 +1,72 @@
-# Example: containerized ShinyProxy with a Kubernetes cluster
+Reference: https://github.com/openanalytics/shinyproxy-config-examples/tree/master/03-containerized-kubernetes
 
-In this example, ShinyProxy will run inside a Kubernetes cluster. Shiny containers will also be spawned
-in the same cluster. To make the application accessible outside the cluster, a NodePort service is created.
+# install k3d
+curl -s https://raw.githubusercontent.com/rancher/k3d/main/install.sh | bash
 
-## How to run
 
-1. Download the `Dockerfile` and `application.yml` files from the folder `shinyproxy-example`.
-2. Open a terminal, go to the directory containing the Dockerfile, and run the following command to build it:
+#create k3d cluster
 
-   ```bash
-   sudo docker build . -t shinyproxy-example
-   ```
+k3d cluster create mycluster
 
-3. Ensure the `shinyproxy-example` image is available on all your kube nodes.
-4. Open a terminal on a master node (where the `kubectl` command is available).
-5. Download the 3 `yaml` files from the folder where this README is located. 
-6. Run the following command to deploy a pod containing `shinyproxy-example`:
+#create worker nodes
+ 
+sudo k3d node create worker1 -c mycluster
 
-   ```bash
-   kubectl create -f sp-deployment.yaml
-   ```
+sudo k3d node create worker2 -c mycluster
 
-7. Run the following command to grant full privileges to the `default` service account which runs the above pod:
 
-   ```bash
-   kubectl create -f sp-authorization.yaml
-   ```
 
-8. Run the following command to deploy a service exposing ShinyProxy outside the cluster:
+#install kubectl
+ curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+ 
+ sudo cp kubectl /usr/bin/
 
-   ```bash
-   kubectl create -f sp-service.yaml
-   ```
 
-## Notes on the configuration
+#check the nodes in the k3s cluster
 
-* The service will expose ShinyProxy on all nodes, listening on port `32094`.
+ sudo kubectl get nodes
+NAME			 STATUS   ROLES 		 AGE	 VERSION
+k3d-mycluster-server-0	 Ready	  control-plane,master	 6m33s	 v1.20.6+k3s1
+k3d-worker2-0		 Ready	  <none>		 11s	 v1.20.6+k3s1
+k3d-worker1-0		 Ready	  <none>		 16s	 v1.20.6+k3s1
 
-* If you do not deploy the service, you can still access ShinyProxy from within the cluster on port `8080`.
 
-* To keep the example concise, the `cluster-admin` role is granted to the `default` service account.
-  Best-practice would be to add a dedicated service account and reference it via `serviceAccountName` in the deployment spec.
-  The following role is the minimal set of permissions:
+#deploy shiny proxy in k3s
+git clone https://github.com/cswclui/shinyproxy-k3d
 
-  ```yaml
-  kind: Role
-  apiVersion: rbac.authorization.k8s.io/v1
-  metadata:
-    namespace: example
-    name: example
-  rules:
-  - apiGroups: [""]
-    resources: ["pods", "pods/log"]
-    verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
-  ```
+cd shinyproxy-k3d
+
+sudo kubectl apply -f sp-deployment.yaml
+sudo kubectl apply -f sp-service.yaml
+sudo kubectl  create -f sp-authorization.yaml
+
+
+sudo kubectl get all
+
+
+```
+NAME				  READY   STATUS    RESTARTS   AGE
+pod/shinyproxy-85c5784c6b-vpgvf   1/1	  Running   0	       13s
+
+NAME		     TYPE	 CLUSTER-IP	 EXTERNAL-IP   PORT(S)		AGE
+service/kubernetes   ClusterIP	 10.43.0.1	 <none>        443/TCP		16m
+service/shinyproxy   NodePort	 10.43.233.218	 <none>        8080:32094/TCP	8m2s
+
+NAME			     READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/shinyproxy   1/1     1		  1	      2m43s
+
+NAME					DESIRED   CURRENT   READY   AGE
+replicaset.apps/shinyproxy-85c5784c6b	1	  1	    1	    13s
+replicaset.apps/shinyproxy-76cbc4475f	0	  0	    0	    2m43s
+```
+
+#port forward localhost:9000 to service/shinyproxy at port 8080
+
+sudo kubectl port-forward service/shinyproxy 9000:8080
+Forwarding from 127.0.0.1:9000 -> 8080
+Forwarding from [::1]:9000 -> 8080
+
+
+# visit localhost:9000 in browser
+
+
