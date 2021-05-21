@@ -25,12 +25,14 @@ sudo k3d node create worker2 -c mycluster
 
 # check the nodes in the k3s cluster
 
- sudo kubectl get nodes
+sudo kubectl get nodes
+
+```
 NAME			 STATUS   ROLES 		 AGE	 VERSION
 k3d-mycluster-server-0	 Ready	  control-plane,master	 6m33s	 v1.20.6+k3s1
 k3d-worker2-0		 Ready	  <none>		 11s	 v1.20.6+k3s1
 k3d-worker1-0		 Ready	  <none>		 16s	 v1.20.6+k3s1
-
+```
 
 # deploy shiny proxy in k3s
 git clone https://github.com/cswclui/shinyproxy-k3d
