@@ -6,9 +6,10 @@ curl -s https://raw.githubusercontent.com/rancher/k3d/main/install.sh | bash
 
 # create k3d cluster
 
+## create k3s cluster with 1 master node
 k3d cluster create mycluster
 
-#create worker nodes
+## create worker nodes
  
 sudo k3d node create worker1 -c mycluster
 
