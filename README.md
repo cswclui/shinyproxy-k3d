@@ -3,7 +3,6 @@ Reference: https://github.com/openanalytics/shinyproxy-config-examples/tree/mast
 # install k3d
 curl -s https://raw.githubusercontent.com/rancher/k3d/main/install.sh | bash
 
-
 # create k3d cluster
 
 ## create k3s cluster with 1 master node
@@ -14,7 +13,6 @@ k3d cluster create mycluster
 sudo k3d node create worker1 -c mycluster
 
 sudo k3d node create worker2 -c mycluster
-
 
 
 # install kubectl
@@ -40,7 +38,9 @@ git clone https://github.com/cswclui/shinyproxy-k3d
 cd shinyproxy-k3d
 
 sudo kubectl apply -f sp-deployment.yaml
+
 sudo kubectl apply -f sp-service.yaml
+
 sudo kubectl  create -f sp-authorization.yaml
 
 
