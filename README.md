@@ -19,11 +19,13 @@ Adapted from: https://github.com/openanalytics/shinyproxy-config-examples/tree/m
  `curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"`
  
  `sudo cp kubectl /usr/bin/`
+ 
+ `sudo chmod +x /usr/bin/kubectl
 
 
 # check the nodes in the k3s cluster
 
-`sudo kubectl get nodes`
+`kubectl get nodes`
 
 ```
 NAME			 STATUS   ROLES 		 AGE	 VERSION
@@ -37,14 +39,14 @@ k3d-worker1-0		 Ready	  <none>		 16s	 v1.20.6+k3s1
 
 `cd shinyproxy-k3d`
 
-`sudo kubectl apply -f sp-deployment.yaml`
+` kubectl apply -f sp-deployment.yaml`
 
-`sudo kubectl apply -f sp-service.yaml`
+` kubectl apply -f sp-service.yaml`
 
-`sudo kubectl  create -f sp-authorization.yaml`
+` kubectl  create -f sp-authorization.yaml`
 
 
-`sudo kubectl get all`
+` kubectl get all`
 
 ```
 NAME				  READY   STATUS    RESTARTS   AGE
@@ -64,7 +66,7 @@ replicaset.apps/shinyproxy-76cbc4475f	0	  0	    0	    2m43s
 
 # port forward localhost:9000 to service/shinyproxy at port 8080
 
-`sudo kubectl port-forward service/shinyproxy 9000:8080`
+` kubectl port-forward service/shinyproxy 9000:8080`
 
 ```
 Forwarding from 127.0.0.1:9000 -> 8080
