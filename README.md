@@ -75,4 +75,11 @@ Forwarding from [::1]:9000 -> 8080
 
 # visit localhost:9000 in browser
 
+# Other notes
+
+Kubeconfig is located at `/.kube/config` and owned by root.
+
+To allow non-root to use kubectl, copy the .kube under user's home directly and change owner to the user.
+
+`sudo chown user ~/.kube/*`
 
