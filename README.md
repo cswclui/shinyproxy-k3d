@@ -6,13 +6,13 @@ Adapted from: https://github.com/openanalytics/shinyproxy-config-examples/tree/m
 # create k3d cluster
 
 ## create k3s cluster with 1 master node
-`sudo k3d cluster create mycluster`
+` k3d cluster create mycluster`
 
 ## create worker nodes
  
-`sudo k3d node create worker1 -c mycluster`
+` k3d node create worker1 -c mycluster`
 
-`sudo k3d node create worker2 -c mycluster`
+` k3d node create worker2 -c mycluster`
 
 
 # install kubectl
